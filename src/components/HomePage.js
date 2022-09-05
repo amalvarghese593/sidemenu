@@ -132,14 +132,14 @@ export const HomePage = () => {
             />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/interviews" element={<Interview />}>
-              <Route path=":type" element={<InterviewItem />} />
+              {/* <Route path=":type" element={<InterviewItem />} /> */}
             </Route>
             <Route path="/reports" element={<Reports />} />
             <Route path="/resumes" element={<Resumes />} />
             <Route path="/submissions" element={<Submissions />} />
             <Route path="/requirements" element={<Requirements />} />
           </Routes>
-          <Outlet />
+          {/* <Outlet /> */}
         </main>
       </div>
     </div>
@@ -198,8 +198,8 @@ const Reports = () => <h1>Reports section</h1>;
 const Resumes = () => <h1>Resumes section</h1>;
 const Submissions = () => <h1>Submissions section</h1>;
 
-const InterviewItem = () => {
-  const props = useParams();
-  console.log({ props });
-  return <h4>int item</h4>;
-};
+// const InterviewItem = () => {
+//   const props = useParams();
+//   console.log({ props });
+//   return <h4>int item</h4>;
+// };
