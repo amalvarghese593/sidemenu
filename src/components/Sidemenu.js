@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
 
 export const Sidemenu = ({ listItems, getLabel, getPath, getSubmenu }) => {
   const [show, setShow] = useState({});
@@ -18,15 +19,20 @@ export const Sidemenu = ({ listItems, getLabel, getPath, getSubmenu }) => {
             const hasSubMenu = getSubmenu(item);
             return (
               <React.Fragment key={item.id}>
-                <li
-                  onClick={
-                    () => submenuOpenClose(item.id, hasSubMenu)
-                    // hasSubMenu ? () => submenuOpenClose(item.id) : undefined
-                  }
-                  className={`${show[item.id] ? "highlight" : ""}`}
-                >
-                  <a href={getPath(item)}>{getLabel(item)}</a>
-                </li>
+                <NavLink to={getPath(item)} /* end */>
+                  {({ isActive }) => (
+                    <li
+                      onClick={
+                        () => submenuOpenClose(item.id, hasSubMenu)
+                        // hasSubMenu ? () => submenuOpenClose(item.id) : undefined
+                      }
+                      className={isActive ? "highlight" : ""}
+                      // className={`${show[item.id] ? "highlight" : ""}`}
+                    >
+                      {getLabel(item)}
+                    </li>
+                  )}
+                </NavLink>
                 {hasSubMenu && (
                   <div className={`submenu ${show[item.id] ? "show" : ""}`}>
                     {getSubmenu(item)()}

@@ -1,12 +1,61 @@
 import React, { useState } from "react";
 import { Sidemenu } from "./Sidemenu";
 import "./index.css";
+import {
+  NavLink,
+  Routes,
+  Route,
+  Navigate,
+  useParams,
+  Outlet,
+} from "react-router-dom";
 
 export const HomePage = () => {
   const [isShow, setIsShow] = useState(true);
   const sideMenuDisplayHandler = () => {
     setIsShow((prev) => !prev);
   };
+
+  const interviewSubmenu = [
+    {
+      label: "Candidate",
+      path: "/candidate",
+    },
+    {
+      label: "Internal",
+      path: "/internal",
+    },
+    {
+      label: "External",
+      path: "/external",
+    },
+  ];
+  const reportsSubmenu = [
+    {
+      label: "item 1",
+      path: "/item1",
+    },
+    {
+      label: "item 2",
+      path: "/item2",
+    },
+    {
+      label: "item 3",
+      path: "/item3",
+    },
+    {
+      label: "item 4",
+      path: "/item4",
+    },
+    {
+      label: "item 5",
+      path: "/item5",
+    },
+    {
+      label: "item 6",
+      path: "/item6",
+    },
+  ];
   const listItems = [
     {
       label: "Dashboard",
@@ -27,12 +76,12 @@ export const HomePage = () => {
       label: "Interviews",
       path: "/interviews",
       id: 4,
+      // Submenu: function () {
+      //   const currentPath = this.path;
+      //   return <Submenu basePath={currentPath} items={interviewSubmenu} />;
+      // },
       Submenu: () => (
-        <ul>
-          <li>item 1</li>
-          <li>item 2</li>
-          <li>item 3</li>
-        </ul>
+        <Submenu basePath="/interviews" items={interviewSubmenu} />
       ),
     },
     {
@@ -44,16 +93,7 @@ export const HomePage = () => {
       label: "Reports",
       path: "/reports",
       id: 6,
-      Submenu: () => (
-        <ul>
-          <li>item 1</li>
-          <li>item 2</li>
-          <li>item 3</li>
-          <li>item 4</li>
-          <li>item 5</li>
-          <li>item 6</li>
-        </ul>
-      ),
+      Submenu: () => <Submenu basePath="/reports" items={reportsSubmenu} />,
     },
   ];
   return (
@@ -73,6 +113,7 @@ export const HomePage = () => {
             getSubmenu={(o) => o.Submenu}
           />
         )}
+
         {/* <BtnWithSidemenu
           onClick={sideMenuDisplayHandler}
           isShow={isShow}
@@ -84,79 +125,21 @@ export const HomePage = () => {
           Open sidemenu
         </BtnWithSidemenu> */}
         <main className={`main-content ${!isShow ? "width-100" : ""}`}>
-          <h1>main content</h1>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt
-            mollitia velit sed optio, ipsa deleniti sit placeat esse, nemo
-            impedit ipsum dolorem maiores qui unde laudantium nostrum corrupti,
-            eligendi commodi?
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt
-            mollitia velit sed optio, ipsa deleniti sit placeat esse, nemo
-            impedit ipsum dolorem maiores qui unde laudantium nostrum corrupti,
-            eligendi commodi?
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt
-            mollitia velit sed optio, ipsa deleniti sit placeat esse, nemo
-            impedit ipsum dolorem maiores qui unde laudantium nostrum corrupti,
-            eligendi commodi?
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt
-            mollitia velit sed optio, ipsa deleniti sit placeat esse, nemo
-            impedit ipsum dolorem maiores qui unde laudantium nostrum corrupti,
-            eligendi commodi?
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt
-            mollitia velit sed optio, ipsa deleniti sit placeat esse, nemo
-            impedit ipsum dolorem maiores qui unde laudantium nostrum corrupti,
-            eligendi commodi?
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt
-            mollitia velit sed optio, ipsa deleniti sit placeat esse, nemo
-            impedit ipsum dolorem maiores qui unde laudantium nostrum corrupti,
-            eligendi commodi?
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt
-            mollitia velit sed optio, ipsa deleniti sit placeat esse, nemo
-            impedit ipsum dolorem maiores qui unde laudantium nostrum corrupti,
-            eligendi commodi?
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt
-            mollitia velit sed optio, ipsa deleniti sit placeat esse, nemo
-            impedit ipsum dolorem maiores qui unde laudantium nostrum corrupti,
-            eligendi commodi?
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt
-            mollitia velit sed optio, ipsa deleniti sit placeat esse, nemo
-            impedit ipsum dolorem maiores qui unde laudantium nostrum corrupti,
-            eligendi commodi?
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt
-            mollitia velit sed optio, ipsa deleniti sit placeat esse, nemo
-            impedit ipsum dolorem maiores qui unde laudantium nostrum corrupti,
-            eligendi commodi?
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt
-            mollitia velit sed optio, ipsa deleniti sit placeat esse, nemo
-            impedit ipsum dolorem maiores qui unde laudantium nostrum corrupti,
-            eligendi commodi?
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt
-            mollitia velit sed optio, ipsa deleniti sit placeat esse, nemo
-            impedit ipsum dolorem maiores qui unde laudantium nostrum corrupti,
-            eligendi commodi?
-          </p>
+          <Routes>
+            <Route
+              path="/"
+              element={<Navigate to="/dashboard" /* replace */ />}
+            />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/interviews" element={<Interview />}>
+              <Route path=":type" element={<InterviewItem />} />
+            </Route>
+            <Route path="/reports" element={<Reports />} />
+            <Route path="/resumes" element={<Resumes />} />
+            <Route path="/submissions" element={<Submissions />} />
+            <Route path="/requirements" element={<Requirements />} />
+          </Routes>
+          <Outlet />
         </main>
       </div>
     </div>
@@ -179,6 +162,20 @@ const HamburgerIcon = () => (
   </svg>
 );
 
+const Submenu = ({ items, basePath }) => {
+  return (
+    <ul>
+      {items.map((item, idx) => (
+        <NavLink to={basePath ? basePath + item.path : item.path} key={idx}>
+          {({ isActive }) => (
+            <li className={isActive ? "active-item" : ""}>{item.label}</li>
+          )}
+        </NavLink>
+      ))}
+    </ul>
+  );
+};
+
 const Button = ({ children, ...rest }) => <button {...rest}>{children}</button>;
 
 const withSidemenu = (Comp) => {
@@ -193,3 +190,16 @@ const withSidemenu = (Comp) => {
 };
 
 const BtnWithSidemenu = withSidemenu(Button);
+
+const Interview = () => <h1>Interview section</h1>;
+const Dashboard = () => <h1>Dashboard section</h1>;
+const Requirements = () => <h1>Requirements section</h1>;
+const Reports = () => <h1>Reports section</h1>;
+const Resumes = () => <h1>Resumes section</h1>;
+const Submissions = () => <h1>Submissions section</h1>;
+
+const InterviewItem = () => {
+  const props = useParams();
+  console.log({ props });
+  return <h4>int item</h4>;
+};
