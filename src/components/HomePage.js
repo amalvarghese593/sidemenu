@@ -134,6 +134,7 @@ export const HomePage = () => {
             <Route path="/interviews" element={<Interview />}>
               {/* <Route path=":type" element={<InterviewItem />} /> */}
             </Route>
+            <Route path="/interviews/:type" element={<InterviewItem />} />
             <Route path="/reports" element={<Reports />} />
             <Route path="/resumes" element={<Resumes />} />
             <Route path="/submissions" element={<Submissions />} />
@@ -168,7 +169,7 @@ const Submenu = ({ items, basePath }) => {
       {items.map((item, idx) => (
         <NavLink to={basePath ? basePath + item.path : item.path} key={idx}>
           {({ isActive }) => (
-            <li className={isActive ? "active-item" : ""}>{item.label}</li>
+            <li className={isActive ? "active" : ""}>{item.label}</li>
           )}
         </NavLink>
       ))}
@@ -198,8 +199,7 @@ const Reports = () => <h1>Reports section</h1>;
 const Resumes = () => <h1>Resumes section</h1>;
 const Submissions = () => <h1>Submissions section</h1>;
 
-// const InterviewItem = () => {
-//   const props = useParams();
-//   console.log({ props });
-//   return <h4>int item</h4>;
-// };
+const InterviewItem = () => {
+  const { type } = useParams();
+  return <h4>{type} interview</h4>;
+};
