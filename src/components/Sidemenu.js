@@ -30,20 +30,17 @@ export const Sidemenu = ({ listItems, getLabel, getPath, getSubmenu }) => {
         <ul>
           {listItems.map((item) => {
             const hasSubMenu = getSubmenu(item);
-            // const hasSubMenu = item.Submenu?.bind(item);
-            // const hasSubMenu = getSubmenu(item)?.bind(item);
 
             return (
               <React.Fragment key={item.id}>
-                <NavLink to={getPath(item)} /* end */>
+                <NavLink
+                  to={getPath(item)}
+                  data-submenu={hasSubMenu ? "true" : "false"}
+                >
                   {({ isActive }) => (
                     <li
-                      onClick={
-                        () => submenuOpenClose(item.id, hasSubMenu)
-                        // hasSubMenu ? () => submenuOpenClose(item.id) : undefined
-                      }
+                      onClick={() => submenuOpenClose(item.id, hasSubMenu)}
                       className={isActive ? "highlight" : ""}
-                      // className={`${show[item.id] ? "highlight" : ""}`}
                     >
                       {getLabel(item)}
                       {hasSubMenu &&
@@ -54,8 +51,6 @@ export const Sidemenu = ({ listItems, getLabel, getPath, getSubmenu }) => {
                 {hasSubMenu && (
                   <div className={`submenu ${show[item.id] ? "show" : ""}`}>
                     {getSubmenu(item)()}
-                    {/* {item.Submenu.bind(item)()} */}
-                    {/* {getSubmenu(item).bind(item)()} */}
                   </div>
                 )}
               </React.Fragment>

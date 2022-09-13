@@ -76,10 +76,6 @@ export const HomePage = () => {
       label: "Interviews",
       path: "/interviews",
       id: 4,
-      // Submenu: function () {
-      //   const currentPath = this.path;
-      //   return <Submenu basePath={currentPath} items={interviewSubmenu} />;
-      // },
       Submenu: () => (
         <Submenu basePath="/interviews" items={interviewSubmenu} />
       ),
@@ -105,16 +101,16 @@ export const HomePage = () => {
         <h1>HomePage</h1>
       </header>
       <div className="main-container">
-        {isShow && (
+        {/* {isShow && (
           <Sidemenu
             listItems={listItems}
             getLabel={(o) => o.label}
             getPath={(o) => o.path}
             getSubmenu={(o) => o.Submenu}
           />
-        )}
+        )} */}
 
-        {/* <BtnWithSidemenu
+        <BtnWithSidemenu
           onClick={sideMenuDisplayHandler}
           isShow={isShow}
           listItems={listItems}
@@ -123,24 +119,19 @@ export const HomePage = () => {
           getSubmenu={(o) => o.Submenu}
         >
           Open sidemenu
-        </BtnWithSidemenu> */}
+        </BtnWithSidemenu>
         <main className={`main-content ${!isShow ? "width-100" : ""}`}>
           <Routes>
-            <Route
-              path="/"
-              element={<Navigate to="/dashboard" /* replace */ />}
-            />
+            <Route path="/" element={<Navigate to="/dashboard" />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/interviews" element={<Interview />}>
-              {/* <Route path=":type" element={<InterviewItem />} /> */}
+              <Route path=":type" element={<InterviewItem />} />
             </Route>
-            <Route path="/interviews/:type" element={<InterviewItem />} />
             <Route path="/reports" element={<Reports />} />
             <Route path="/resumes" element={<Resumes />} />
             <Route path="/submissions" element={<Submissions />} />
             <Route path="/requirements" element={<Requirements />} />
           </Routes>
-          {/* <Outlet /> */}
         </main>
       </div>
     </div>
@@ -167,7 +158,11 @@ const Submenu = ({ items, basePath }) => {
   return (
     <ul>
       {items.map((item, idx) => (
-        <NavLink to={basePath ? basePath + item.path : item.path} key={idx}>
+        <NavLink
+          data-submenu="false"
+          to={basePath ? basePath + item.path : item.path}
+          key={idx}
+        >
           {({ isActive }) => (
             <li className={isActive ? "active" : ""}>{item.label}</li>
           )}
@@ -192,7 +187,12 @@ const withSidemenu = (Comp) => {
 
 const BtnWithSidemenu = withSidemenu(Button);
 
-const Interview = () => <h1>Interview section</h1>;
+const Interview = () => (
+  <>
+    <h1>Interview section</h1>
+    <Outlet />
+  </>
+);
 const Dashboard = () => <h1>Dashboard section</h1>;
 const Requirements = () => <h1>Requirements section</h1>;
 const Reports = () => <h1>Reports section</h1>;
