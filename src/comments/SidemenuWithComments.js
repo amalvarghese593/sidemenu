@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
-export const Sidemenu = ({
+export const SidemenuWithComments = ({
   listItems,
   getLabel,
   getPath,
   getSubmenu,
-  isMobile,
 }) => {
   const { pathname } = useLocation();
 
@@ -31,7 +30,7 @@ export const Sidemenu = ({
   };
 
   return (
-    <div className={`sidemenu-wrapper ${isMobile ? "w-100" : ""}`}>
+    <div className="sidemenu-wrapper">
       <nav>
         <ul>
           {listItems.map((item) => {
@@ -41,12 +40,16 @@ export const Sidemenu = ({
               <React.Fragment key={item.id}>
                 <NavLink
                   to={getPath(item)}
-                  data-submenu={hasSubMenu ? "true" : "false"}
+                  data-submenu={hasSubMenu ? "true" : "false"} /* end */
                 >
                   {({ isActive }) => (
                     <li
-                      onClick={() => submenuOpenClose(item.id, hasSubMenu)}
+                      onClick={
+                        () => submenuOpenClose(item.id, hasSubMenu)
+                        // hasSubMenu ? () => submenuOpenClose(item.id) : undefined
+                      }
                       className={isActive ? "highlight" : ""}
+                      // className={`${show[item.id] ? "highlight" : ""}`}
                     >
                       {getLabel(item)}
                       {hasSubMenu &&
@@ -57,6 +60,8 @@ export const Sidemenu = ({
                 {hasSubMenu && (
                   <div className={`submenu ${show[item.id] ? "show" : ""}`}>
                     {getSubmenu(item)()}
+                    {/* {item.Submenu.bind(item)()} */}
+                    {/* {getSubmenu(item).bind(item)()} */}
                   </div>
                 )}
               </React.Fragment>

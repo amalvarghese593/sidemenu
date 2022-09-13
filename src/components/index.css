@@ -19,16 +19,22 @@
   border: 1px solid black;
   display: flex;
 }
+.flex-column {
+  flex-direction: column;
+}
 .sidemenu-wrapper {
   border: 1px solid red;
   width: 30%;
 }
 .main-content {
   border: 1px solid blue;
-  width: 70%;
-}
-.width-100 {
   width: 100%;
+}
+.w-100 {
+  width: 100%;
+}
+.w-70 {
+  width: 70%;
 }
 .sidemenu-wrapper a {
   text-decoration: none;

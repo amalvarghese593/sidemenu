@@ -1,17 +1,13 @@
 import React, { useState } from "react";
 import { Sidemenu } from "./Sidemenu";
 import "./index.css";
-import {
-  NavLink,
-  Routes,
-  Route,
-  Navigate,
-  useParams,
-  Outlet,
-} from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { AllRoutes } from "routes/AllRoutes";
+
+const isMobile = window.innerWidth < 480;
 
 export const HomePage = () => {
-  const [isShow, setIsShow] = useState(true);
+  const [isShow, setIsShow] = useState(() => !(window.innerWidth < 480));
   const sideMenuDisplayHandler = () => {
     setIsShow((prev) => !prev);
   };
@@ -100,17 +96,18 @@ export const HomePage = () => {
         </button>
         <h1>HomePage</h1>
       </header>
-      <div className="main-container">
-        {/* {isShow && (
+      <div className={`main-container ${isMobile ? "flex-column" : ""}`}>
+        {isShow && (
           <Sidemenu
+            isMobile={isMobile}
             listItems={listItems}
             getLabel={(o) => o.label}
             getPath={(o) => o.path}
             getSubmenu={(o) => o.Submenu}
           />
-        )} */}
+        )}
 
-        <BtnWithSidemenu
+        {/* <BtnWithSidemenu
           onClick={sideMenuDisplayHandler}
           isShow={isShow}
           listItems={listItems}
@@ -119,24 +116,46 @@ export const HomePage = () => {
           getSubmenu={(o) => o.Submenu}
         >
           Open sidemenu
-        </BtnWithSidemenu>
-        <main className={`main-content ${!isShow ? "width-100" : ""}`}>
-          <Routes>
-            <Route path="/" element={<Navigate to="/dashboard" />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/interviews" element={<Interview />}>
-              <Route path=":type" element={<InterviewItem />} />
-            </Route>
-            <Route path="/reports" element={<Reports />} />
-            <Route path="/resumes" element={<Resumes />} />
-            <Route path="/submissions" element={<Submissions />} />
-            <Route path="/requirements" element={<Requirements />} />
-          </Routes>
+        </BtnWithSidemenu> */}
+        <main className={`main-content ${!isMobile && isShow ? "w-70" : ""}`}>
+          <AllRoutes />
         </main>
       </div>
     </div>
   );
 };
+
+const Submenu = ({ items, basePath }) => (
+  <ul>
+    {items.map((item, idx) => (
+      <NavLink
+        data-submenu="false"
+        to={basePath ? basePath + item.path : item.path}
+        key={idx}
+      >
+        {({ isActive }) => (
+          <li className={isActive ? "active" : ""}>{item.label}</li>
+        )}
+      </NavLink>
+    ))}
+  </ul>
+);
+
+//composition pattern.............................
+const Button = ({ children, ...rest }) => <button {...rest}>{children}</button>;
+
+const withSidemenu = (Comp) => {
+  return ({ children, onClick, isShow, ...rest }) => {
+    return (
+      <>
+        <Comp onClick={onClick}>{children}</Comp>
+        {isShow && <Sidemenu {...rest} />}
+      </>
+    );
+  };
+};
+
+const BtnWithSidemenu = withSidemenu(Button);
 
 const HamburgerIcon = () => (
   <svg
@@ -153,53 +172,3 @@ const HamburgerIcon = () => (
     />
   </svg>
 );
-
-const Submenu = ({ items, basePath }) => {
-  return (
-    <ul>
-      {items.map((item, idx) => (
-        <NavLink
-          data-submenu="false"
-          to={basePath ? basePath + item.path : item.path}
-          key={idx}
-        >
-          {({ isActive }) => (
-            <li className={isActive ? "active" : ""}>{item.label}</li>
-          )}
-        </NavLink>
-      ))}
-    </ul>
-  );
-};
-
-const Button = ({ children, ...rest }) => <button {...rest}>{children}</button>;
-
-const withSidemenu = (Comp) => {
-  return ({ children, onClick, isShow, ...rest }) => {
-    return (
-      <>
-        <Comp onClick={onClick}>{children}</Comp>
-        {isShow && <Sidemenu {...rest} />}
-      </>
-    );
-  };
-};
-
-const BtnWithSidemenu = withSidemenu(Button);
-
-const Interview = () => (
-  <>
-    <h1>Interview section</h1>
-    <Outlet />
-  </>
-);
-const Dashboard = () => <h1>Dashboard section</h1>;
-const Requirements = () => <h1>Requirements section</h1>;
-const Reports = () => <h1>Reports section</h1>;
-const Resumes = () => <h1>Resumes section</h1>;
-const Submissions = () => <h1>Submissions section</h1>;
-
-const InterviewItem = () => {
-  const { type } = useParams();
-  return <h4>{type} interview</h4>;
-};
