@@ -73,7 +73,11 @@ export const HomePage = () => {
       path: "/interviews",
       id: 4,
       Submenu: () => (
-        <Submenu basePath="/interviews" items={interviewSubmenu} />
+        <Submenu
+          setIsShow={setIsShow}
+          basePath="/interviews"
+          items={interviewSubmenu}
+        />
       ),
     },
     {
@@ -85,7 +89,13 @@ export const HomePage = () => {
       label: "Reports",
       path: "/reports",
       id: 6,
-      Submenu: () => <Submenu basePath="/reports" items={reportsSubmenu} />,
+      Submenu: () => (
+        <Submenu
+          setIsShow={setIsShow}
+          basePath="/reports"
+          items={reportsSubmenu}
+        />
+      ),
     },
   ];
   return (
@@ -104,6 +114,7 @@ export const HomePage = () => {
             getLabel={(o) => o.label}
             getPath={(o) => o.path}
             getSubmenu={(o) => o.Submenu}
+            setIsShow={setIsShow}
           />
         )}
 
@@ -125,7 +136,7 @@ export const HomePage = () => {
   );
 };
 
-const Submenu = ({ items, basePath }) => (
+const Submenu = ({ items, basePath, setIsShow }) => (
   <ul>
     {items.map((item, idx) => (
       <NavLink
@@ -134,7 +145,14 @@ const Submenu = ({ items, basePath }) => (
         key={idx}
       >
         {({ isActive }) => (
-          <li className={isActive ? "active" : ""}>{item.label}</li>
+          <li
+            className={isActive ? "active" : ""}
+            onClick={() => {
+              if (isMobile) setIsShow(false);
+            }}
+          >
+            {item.label}
+          </li>
         )}
       </NavLink>
     ))}

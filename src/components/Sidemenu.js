@@ -7,6 +7,7 @@ export const Sidemenu = ({
   getPath,
   getSubmenu,
   isMobile,
+  setIsShow,
 }) => {
   const { pathname } = useLocation();
 
@@ -45,7 +46,12 @@ export const Sidemenu = ({
                 >
                   {({ isActive }) => (
                     <li
-                      onClick={() => submenuOpenClose(item.id, hasSubMenu)}
+                      onClick={() => {
+                        if (isMobile && !hasSubMenu) {
+                          setIsShow(false);
+                        }
+                        submenuOpenClose(item.id, hasSubMenu);
+                      }}
                       className={isActive ? "highlight" : ""}
                     >
                       {getLabel(item)}
