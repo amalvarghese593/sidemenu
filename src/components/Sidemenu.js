@@ -13,7 +13,6 @@ export const Sidemenu = ({
   components: Components = {},
 }) => {
   const { pathname } = useLocation();
-  // const [isShow, setIsShow] = useState(!isMobile);
   const [isCollapsed, setIsCollapsed] = useState(true);
   const collapseSvgRef = useRef();
 
@@ -31,14 +30,12 @@ export const Sidemenu = ({
   }, []);
   const [show, setShow] = useState(initialSubmenu);
 
-  const submenuOpenClose = (id, isSubMenu) => {
-    // console.time("Submenu");
-    if (isSubMenu) {
+  const submenuOpenClose = (id, SubMenu) => {
+    if (SubMenu) {
       setShow((prev) => ({
         [id]: !prev[id],
       }));
     } else setShow({});
-    // console.timeEnd("Submenu");
   };
 
   const hasCollapseBtn = Components?.hasOwnProperty("CollapseBtn");
@@ -70,12 +67,26 @@ export const Sidemenu = ({
     }
     submenuOpenClose(itemId, SubMenu);
   };
+
+  const classNames = useMemo(() => {
+    const classes = {
+      sidemenuWpr: ["sidemenu-wrapper"],
+      collapseBtn: ["collapse-btn"],
+    };
+    if (isCollapsed) {
+      classes.sidemenuWpr.push("w-sidemenu");
+      classes.collapseBtn.push("rotate-180");
+    } else if (isMobile) classes.sidemenuWpr.push("mobile-width");
+    return classes;
+  }, [isCollapsed, isMobile]);
+
   return (
     <div
       ref={sidemenuRef}
-      className={`sidemenu-wrapper ${isCollapsed ? "w-sidemenu" : ""} ${
-        isMobile && !isCollapsed ? "mobile-width" : ""
-      }`}
+      // className={`sidemenu-wrapper ${isCollapsed ? "w-sidemenu" : ""} ${
+      //   isMobile && !isCollapsed ? "mobile-width" : ""
+      // }`}
+      className={classNames.sidemenuWpr.join(" ")}
       onMouseEnter={handleMouseEnter}
     >
       <nav>
@@ -83,7 +94,8 @@ export const Sidemenu = ({
           {hasCollapseBtn && (
             <li className="collapse-btn-cntr">
               <span
-                className={`collapse-btn ${!isCollapsed ? "rotate-180" : ""}`}
+                // className={`collapse-btn ${isCollapsed ? "rotate-180" : ""}`}
+                className={classNames.collapseBtn.join(" ")}
                 onClick={handleCollapse}
               >
                 <Components.CollapseBtn ref={collapseSvgRef} />
