@@ -1,17 +1,24 @@
-import React, { useState } from "react";
+import { useEventListener } from "hooks/useEventListener";
+import React, { useState, useRef, useMemo } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
+const isMobile = window.innerWidth < 480;
+
 export const Sidemenu = ({
-  listItems,
-  getLabel,
-  getPath,
-  getSubmenu,
-  isMobile,
-  setIsShow,
+  listItems = [],
+  getLabel = () => {},
+  getPath = () => {},
+  getSubmenu = () => {},
+  getIcon = () => {},
+  components: Components = {},
 }) => {
   const { pathname } = useLocation();
+  // const [isShow, setIsShow] = useState(!isMobile);
+  const [isCollapsed, setIsCollapsed] = useState(true);
+  const collapseSvgRef = useRef();
 
-  const [show, setShow] = useState(() => {
+  /* to open submenu in sidemenu initially from url */
+  const initialSubmenu = useMemo(() => {
     const matchingItem = listItems.find(
       (el) => el.Submenu && new RegExp(`^${el.path}`).test(pathname)
     );
@@ -21,48 +28,103 @@ export const Sidemenu = ({
       };
     }
     return {};
-  });
+  }, []);
+  const [show, setShow] = useState(initialSubmenu);
 
   const submenuOpenClose = (id, isSubMenu) => {
+    // console.time("Submenu");
     if (isSubMenu) {
       setShow((prev) => ({
         [id]: !prev[id],
       }));
     } else setShow({});
+    // console.timeEnd("Submenu");
   };
 
+  const hasCollapseBtn = Components?.hasOwnProperty("CollapseBtn");
+  const handleCollapse = () => setIsCollapsed((prev) => !prev);
+
+  const handleMouseEnter = (e) => {
+    if (e.target !== collapseSvgRef.current && isCollapsed)
+      setIsCollapsed(false);
+  };
+  const sidemenuRef = useRef();
+  const onClickOutside = (e) => {
+    if (
+      !sidemenuRef.current.contains(e.target) &&
+      !isCollapsed &&
+      e.target !== collapseSvgRef.current
+    ) {
+      setIsCollapsed(true);
+    }
+  };
+  // //without handler as dependency
+  // useEventListener(document, "click", onClickOutside, [isCollapsed]);
+  // //with handler as dependency(iscollapsed is used inside handler fn)
+  // useEventListener(document, "click", onClickOutside);
+  useEventListener("click", onClickOutside, document);
+
+  const handleClick = (itemId, SubMenu) => {
+    if (isMobile && !SubMenu) {
+      setIsCollapsed(true);
+    }
+    submenuOpenClose(itemId, SubMenu);
+  };
   return (
-    <div className={`sidemenu-wrapper ${isMobile ? "w-100" : ""}`}>
+    <div
+      ref={sidemenuRef}
+      className={`sidemenu-wrapper ${isCollapsed ? "w-sidemenu" : ""} ${
+        isMobile && !isCollapsed ? "mobile-width" : ""
+      }`}
+      onMouseEnter={handleMouseEnter}
+    >
       <nav>
         <ul>
+          {hasCollapseBtn && (
+            <li className="collapse-btn-cntr">
+              <span
+                className={`collapse-btn ${!isCollapsed ? "rotate-180" : ""}`}
+                onClick={handleCollapse}
+              >
+                <Components.CollapseBtn ref={collapseSvgRef} />
+              </span>
+            </li>
+          )}
           {listItems.map((item) => {
-            const hasSubMenu = getSubmenu(item);
-
+            const SubMenu = getSubmenu(item);
             return (
               <React.Fragment key={item.id}>
                 <NavLink
                   to={getPath(item)}
-                  data-submenu={hasSubMenu ? "true" : "false"}
+                  data-submenu={SubMenu ? "true" : "false"}
                 >
                   {({ isActive }) => (
                     <li
-                      onClick={() => {
-                        if (isMobile && !hasSubMenu) {
-                          setIsShow(false);
-                        }
-                        submenuOpenClose(item.id, hasSubMenu);
-                      }}
+                      onClick={() => handleClick(item.id, SubMenu)}
                       className={isActive ? "highlight" : ""}
                     >
-                      {getLabel(item)}
-                      {hasSubMenu &&
-                        (show[item.id] ? <UpArrow /> : <DownArrow />)}
+                      <span className="icon">{getIcon(item)}</span>
+                      {!isCollapsed && (
+                        <>
+                          {getLabel(item)}
+                          {SubMenu && (
+                            <span
+                              className={`${show[item.id] ? "rotate-180" : ""}`}
+                            >
+                              <DownArrow />
+                            </span>
+                          )}
+                        </>
+                      )}
                     </li>
                   )}
                 </NavLink>
-                {hasSubMenu && (
+                {SubMenu && !isCollapsed && (
                   <div className={`submenu ${show[item.id] ? "show" : ""}`}>
-                    {getSubmenu(item)()}
+                    <SubMenu
+                      isMobile={isMobile}
+                      setIsCollapsed={setIsCollapsed}
+                    />
                   </div>
                 )}
               </React.Fragment>
@@ -84,17 +146,5 @@ const DownArrow = () => (
     viewBox="0 0 16 16"
   >
     <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
-  </svg>
-);
-const UpArrow = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="16"
-    height="16"
-    fill="currentColor"
-    className="bi bi-caret-up-fill"
-    viewBox="0 0 16 16"
-  >
-    <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z" />
   </svg>
 );

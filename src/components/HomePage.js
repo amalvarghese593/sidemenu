@@ -1,17 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { Sidemenu } from "./Sidemenu";
 import "./index.css";
 import { NavLink } from "react-router-dom";
 import { AllRoutes } from "routes/AllRoutes";
 
-const isMobile = window.innerWidth < 480;
-
 export const HomePage = () => {
-  const [isShow, setIsShow] = useState(() => !(window.innerWidth < 480));
-  const sideMenuDisplayHandler = () => {
-    setIsShow((prev) => !prev);
-  };
-
   const interviewSubmenu = [
     {
       label: "Candidate",
@@ -57,26 +50,31 @@ export const HomePage = () => {
       label: "Dashboard",
       path: "/dashboard",
       id: 1,
+      icon: () => <DummyIcon />,
     },
     {
       label: "Requirements",
       path: "/requirements",
       id: 2,
+      icon: () => <DummyIcon />,
     },
     {
       label: "Resumes",
       path: "/resumes",
       id: 3,
+      icon: () => <DummyIcon />,
     },
     {
       label: "Interviews",
       path: "/interviews",
       id: 4,
-      Submenu: () => (
+      icon: () => <DummyIcon />,
+      Submenu: ({ isMobile, setIsCollapsed }) => (
         <Submenu
-          setIsShow={setIsShow}
           basePath="/interviews"
           items={interviewSubmenu}
+          isMobileView={isMobile}
+          setIsCollapsed={setIsCollapsed}
         />
       ),
     },
@@ -84,16 +82,19 @@ export const HomePage = () => {
       label: "Submissions",
       path: "/submissions",
       id: 5,
+      icon: () => <DummyIcon />,
     },
     {
       label: "Reports",
       path: "/reports",
       id: 6,
-      Submenu: () => (
+      icon: () => <DummyIcon />,
+      Submenu: ({ isMobile, setIsCollapsed }) => (
         <Submenu
-          setIsShow={setIsShow}
           basePath="/reports"
           items={reportsSubmenu}
+          isMobileView={isMobile}
+          setIsCollapsed={setIsCollapsed}
         />
       ),
     },
@@ -101,22 +102,21 @@ export const HomePage = () => {
   return (
     <div className="homepage-wrapper">
       <header className="header">
-        <button onClick={sideMenuDisplayHandler}>
-          <HamburgerIcon />
-        </button>
         <h1>HomePage</h1>
       </header>
-      <div className={`main-container ${isMobile ? "flex-column" : ""}`}>
-        {isShow && (
-          <Sidemenu
-            isMobile={isMobile}
-            listItems={listItems}
-            getLabel={(o) => o.label}
-            getPath={(o) => o.path}
-            getSubmenu={(o) => o.Submenu}
-            setIsShow={setIsShow}
-          />
-        )}
+      <div className="main-container">
+        <Sidemenu
+          listItems={listItems}
+          getLabel={(o) => o.label}
+          getPath={(o) => o.path}
+          getSubmenu={(o) => o.Submenu}
+          getIcon={(o) => o.icon()}
+          components={{
+            CollapseBtn: React.forwardRef((props, ref) => (
+              <CollapseBtn ref={ref} />
+            )),
+          }}
+        />
 
         {/* <BtnWithSidemenu
           onClick={sideMenuDisplayHandler}
@@ -128,7 +128,7 @@ export const HomePage = () => {
         >
           Open sidemenu
         </BtnWithSidemenu> */}
-        <main className={`main-content ${!isMobile && isShow ? "w-70" : ""}`}>
+        <main className={`main-content`}>
           <AllRoutes />
         </main>
       </div>
@@ -136,57 +136,75 @@ export const HomePage = () => {
   );
 };
 
-const Submenu = ({ items, basePath, setIsShow }) => (
-  <ul>
-    {items.map((item, idx) => (
-      <NavLink
-        data-submenu="false"
-        to={basePath ? basePath + item.path : item.path}
-        key={idx}
-      >
-        {({ isActive }) => (
-          <li
-            className={isActive ? "active" : ""}
-            onClick={() => {
-              if (isMobile) setIsShow(false);
-            }}
-          >
-            {item.label}
-          </li>
-        )}
-      </NavLink>
-    ))}
-  </ul>
-);
-
-//composition pattern.............................
-const Button = ({ children, ...rest }) => <button {...rest}>{children}</button>;
-
-const withSidemenu = (Comp) => {
-  return ({ children, onClick, isShow, ...rest }) => {
-    return (
-      <>
-        <Comp onClick={onClick}>{children}</Comp>
-        {isShow && <Sidemenu {...rest} />}
-      </>
-    );
+const Submenu = ({ items, basePath, setIsCollapsed, isMobileView }) => {
+  const handleClick = () => {
+    if (isMobileView) setIsCollapsed(true);
   };
+  return (
+    <ul>
+      {items.map((item, idx) => (
+        <NavLink
+          data-submenu="false"
+          to={basePath ? basePath + item.path : item.path}
+          key={idx}
+        >
+          {({ isActive }) => (
+            <li className={isActive ? "active" : ""} onClick={handleClick}>
+              {item.label}
+            </li>
+          )}
+        </NavLink>
+      ))}
+    </ul>
+  );
 };
 
-const BtnWithSidemenu = withSidemenu(Button);
+//composition pattern.............................
+// const Button = ({ children, ...rest }) => <button {...rest}>{children}</button>;
 
-const HamburgerIcon = () => (
+// const withSidemenu = (Comp) => {
+//   return ({ children, onClick, isShow, ...rest }) => {
+//     return (
+//       <>
+//         <Comp onClick={onClick}>{children}</Comp>
+//         {isShow && <Sidemenu {...rest} />}
+//       </>
+//     );
+//   };
+// };
+
+// const BtnWithSidemenu = withSidemenu(Button);
+
+const DummyIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="16"
-    height="16"
     fill="currentColor"
-    className="bi bi-list"
+    className="bi bi-archive-fill"
+    viewBox="0 0 16 16"
+  >
+    <path d="M12.643 15C13.979 15 15 13.845 15 12.5V5H1v7.5C1 13.845 2.021 15 3.357 15h9.286zM5.5 7h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1zM.8 1a.8.8 0 0 0-.8.8V3a.8.8 0 0 0 .8.8h14.4A.8.8 0 0 0 16 3V1.8a.8.8 0 0 0-.8-.8H.8z" />
+  </svg>
+);
+
+const CollapseBtn = React.forwardRef((props, ref) => (
+  <DoubleArrowRight ref={ref} />
+));
+
+const DoubleArrowRight = React.forwardRef((props, ref) => (
+  <svg
+    ref={ref}
+    xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
+    className="bi bi-chevron-double-right"
     viewBox="0 0 16 16"
   >
     <path
       fillRule="evenodd"
-      d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
+      d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"
+    />
+    <path
+      fillRule="evenodd"
+      d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"
     />
   </svg>
-);
+));

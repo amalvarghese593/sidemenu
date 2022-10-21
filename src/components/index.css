@@ -3,6 +3,13 @@
   margin: 0;
   padding: 0;
 }
+:root {
+  --icon-size: 18px;
+  --font-size: 16px;
+  --color: red;
+  --initial-width: 200px;
+  --final-width: 40px;
+}
 .border {
   border: 1px solid red;
 }
@@ -11,30 +18,27 @@
   display: flex;
 }
 .homepage-wrapper {
-  border: 1px solid red;
   height: 100vh;
   width: 100%;
 }
 .main-container {
-  border: 1px solid black;
   display: flex;
 }
-.flex-column {
-  flex-direction: column;
-}
 .sidemenu-wrapper {
-  border: 1px solid red;
-  width: 30%;
+  width: var(--initial-width);
 }
 .main-content {
   border: 1px solid blue;
-  width: 100%;
+  flex-grow: 1;
 }
 .w-100 {
   width: 100%;
 }
 .w-70 {
   width: 70%;
+}
+.w-sidemenu {
+  width: var(--final-width);
 }
 .sidemenu-wrapper a {
   text-decoration: none;
@@ -45,6 +49,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.sidemenu-wrapper li.collapse-btn-cntr {
+  border-top: 1px solid gray;
+}
+.sidemenu-wrapper span.icon {
+  position: absolute;
+  left: 10px;
+  width: var(--icon-size);
 }
 .submenu {
   display: none;
@@ -69,4 +81,22 @@
 }
 a.active[data-submenu="false"] {
   pointer-events: none;
+}
+.collapse-btn {
+  position: absolute;
+  left: 10px;
+}
+.collapse-btn:hover {
+  cursor: pointer;
+}
+.collapse-btn svg {
+  width: var(--icon-size);
+}
+.rotate-180 {
+  transform: rotate(180deg);
+}
+.mobile-width {
+  width: 100%;
+  position: absolute;
+  background-color: #fff;
 }
