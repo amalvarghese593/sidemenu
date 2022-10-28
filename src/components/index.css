@@ -26,6 +26,10 @@
 }
 .sidemenu-wrapper {
   width: var(--initial-width);
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
 }
 .main-content {
   border: 1px solid blue;

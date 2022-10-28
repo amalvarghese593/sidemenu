@@ -27,6 +27,7 @@ export const Sidemenu = ({
       };
     }
     return {};
+    /* eslint-disable react-hooks/exhaustive-deps */
   }, []);
   const [show, setShow] = useState(initialSubmenu);
 
@@ -62,9 +63,8 @@ export const Sidemenu = ({
   useEventListener("click", onClickOutside, document);
 
   const handleClick = (itemId, SubMenu) => {
-    if (isMobile && !SubMenu) {
-      setIsCollapsed(true);
-    }
+    if (isMobile && !SubMenu) setIsCollapsed(true);
+    if (isMobile && SubMenu && isCollapsed) setIsCollapsed(false);
     submenuOpenClose(itemId, SubMenu);
   };
 
@@ -78,7 +78,7 @@ export const Sidemenu = ({
       classes.collapseBtn.push("rotate-180");
     } else if (isMobile) classes.sidemenuWpr.push("mobile-width");
     return classes;
-  }, [isCollapsed, isMobile]);
+  }, [isCollapsed]);
 
   return (
     <div

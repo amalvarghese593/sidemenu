@@ -1,6 +1,180 @@
 import { Outlet, useParams } from "react-router-dom";
 
-export const Dashboard = () => <h1>Dashboard section</h1>;
+export const Dashboard = () => {
+  return (
+    <>
+      <h1>Dashboard section</h1>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
+        odio repellat pariatur reprehenderit id eum minima dolore culpa. Sed
+        fugiat molestiae veritatis eos minus aliquid. Quas, dolorem asperiores?
+        Sapiente, dolor?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
+        odio repellat pariatur reprehenderit id eum minima dolore culpa. Sed
+        fugiat molestiae veritatis eos minus aliquid. Quas, dolorem asperiores?
+        Sapiente, dolor?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
+        odio repellat pariatur reprehenderit id eum minima dolore culpa. Sed
+        fugiat molestiae veritatis eos minus aliquid. Quas, dolorem asperiores?
+        Sapiente, dolor?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
+        odio repellat pariatur reprehenderit id eum minima dolore culpa. Sed
+        fugiat molestiae veritatis eos minus aliquid. Quas, dolorem asperiores?
+        Sapiente, dolor?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
+        odio repellat pariatur reprehenderit id eum minima dolore culpa. Sed
+        fugiat molestiae veritatis eos minus aliquid. Quas, dolorem asperiores?
+        Sapiente, dolor?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
+        odio repellat pariatur reprehenderit id eum minima dolore culpa. Sed
+        fugiat molestiae veritatis eos minus aliquid. Quas, dolorem asperiores?
+        Sapiente, dolor?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
+        odio repellat pariatur reprehenderit id eum minima dolore culpa. Sed
+        fugiat molestiae veritatis eos minus aliquid. Quas, dolorem asperiores?
+        Sapiente, dolor?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
+        odio repellat pariatur reprehenderit id eum minima dolore culpa. Sed
+        fugiat molestiae veritatis eos minus aliquid. Quas, dolorem asperiores?
+        Sapiente, dolor?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
+        odio repellat pariatur reprehenderit id eum minima dolore culpa. Sed
+        fugiat molestiae veritatis eos minus aliquid. Quas, dolorem asperiores?
+        Sapiente, dolor?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
+        odio repellat pariatur reprehenderit id eum minima dolore culpa. Sed
+        fugiat molestiae veritatis eos minus aliquid. Quas, dolorem asperiores?
+        Sapiente, dolor?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
+        odio repellat pariatur reprehenderit id eum minima dolore culpa. Sed
+        fugiat molestiae veritatis eos minus aliquid. Quas, dolorem asperiores?
+        Sapiente, dolor?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
+        odio repellat pariatur reprehenderit id eum minima dolore culpa. Sed
+        fugiat molestiae veritatis eos minus aliquid. Quas, dolorem asperiores?
+        Sapiente, dolor?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
+        odio repellat pariatur reprehenderit id eum minima dolore culpa. Sed
+        fugiat molestiae veritatis eos minus aliquid. Quas, dolorem asperiores?
+        Sapiente, dolor?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
+        odio repellat pariatur reprehenderit id eum minima dolore culpa. Sed
+        fugiat molestiae veritatis eos minus aliquid. Quas, dolorem asperiores?
+        Sapiente, dolor?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
+        odio repellat pariatur reprehenderit id eum minima dolore culpa. Sed
+        fugiat molestiae veritatis eos minus aliquid. Quas, dolorem asperiores?
+        Sapiente, dolor?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
+        odio repellat pariatur reprehenderit id eum minima dolore culpa. Sed
+        fugiat molestiae veritatis eos minus aliquid. Quas, dolorem asperiores?
+        Sapiente, dolor?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
+        odio repellat pariatur reprehenderit id eum minima dolore culpa. Sed
+        fugiat molestiae veritatis eos minus aliquid. Quas, dolorem asperiores?
+        Sapiente, dolor?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
+        odio repellat pariatur reprehenderit id eum minima dolore culpa. Sed
+        fugiat molestiae veritatis eos minus aliquid. Quas, dolorem asperiores?
+        Sapiente, dolor?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
+        odio repellat pariatur reprehenderit id eum minima dolore culpa. Sed
+        fugiat molestiae veritatis eos minus aliquid. Quas, dolorem asperiores?
+        Sapiente, dolor?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
+        odio repellat pariatur reprehenderit id eum minima dolore culpa. Sed
+        fugiat molestiae veritatis eos minus aliquid. Quas, dolorem asperiores?
+        Sapiente, dolor?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
+        odio repellat pariatur reprehenderit id eum minima dolore culpa. Sed
+        fugiat molestiae veritatis eos minus aliquid. Quas, dolorem asperiores?
+        Sapiente, dolor?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
+        odio repellat pariatur reprehenderit id eum minima dolore culpa. Sed
+        fugiat molestiae veritatis eos minus aliquid. Quas, dolorem asperiores?
+        Sapiente, dolor?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
+        odio repellat pariatur reprehenderit id eum minima dolore culpa. Sed
+        fugiat molestiae veritatis eos minus aliquid. Quas, dolorem asperiores?
+        Sapiente, dolor?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
+        odio repellat pariatur reprehenderit id eum minima dolore culpa. Sed
+        fugiat molestiae veritatis eos minus aliquid. Quas, dolorem asperiores?
+        Sapiente, dolor?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
+        odio repellat pariatur reprehenderit id eum minima dolore culpa. Sed
+        fugiat molestiae veritatis eos minus aliquid. Quas, dolorem asperiores?
+        Sapiente, dolor?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
+        odio repellat pariatur reprehenderit id eum minima dolore culpa. Sed
+        fugiat molestiae veritatis eos minus aliquid. Quas, dolorem asperiores?
+        Sapiente, dolor?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
+        odio repellat pariatur reprehenderit id eum minima dolore culpa. Sed
+        fugiat molestiae veritatis eos minus aliquid. Quas, dolorem asperiores?
+        Sapiente, dolor?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
+        odio repellat pariatur reprehenderit id eum minima dolore culpa. Sed
+        fugiat molestiae veritatis eos minus aliquid. Quas, dolorem asperiores?
+        Sapiente, dolor?
+      </p>
+    </>
+  );
+};
 export const Interview = () => (
   <>
     <h1>Interview section</h1>
